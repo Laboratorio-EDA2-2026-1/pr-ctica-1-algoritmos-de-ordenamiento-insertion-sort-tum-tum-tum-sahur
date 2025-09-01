@@ -24,24 +24,27 @@ void sort_matrix(int **matrix, int n) {
     // TODO: Implementa aquí el algoritmo.
     // Necesitarás el método de inserción,
     // pero recuerda aplicar la regla de mover toda la columna.
-    int key;
+    
     for (int i = 0; i < n; i++) {
         for (int j = 1; j < n; j++) {
-            key = matrix[i][j];
+            int *key = (int *)malloc((n-i) * sizeof(int));
+            for (int m = i; m < n; m++) //Guardamos la columna desde fila i hasta la ultima en un arreglo
+            {
+                key[m-i] = matrix[m][j];
+            }
+            
             int k = j-1;
-            while (k >= 0 && matrix[i][k] > key) {
+            while (k >= 0 && matrix[i][k] > key[0]) {
                 for (int m = i; m < n; m++) {
                     matrix[m][k+1] = matrix[m][k];
                 }
                 k--;
             }
-            for (int m = i; m < n; m++) {
-                if(m == i){
-                    matrix[i][k+1] = key;
-                }else{
-                    matrix[m][k+1] = matrix[m][j];
-                }
+            for (int m = i; m  < n; m++)
+            {
+                matrix[m][k+1] = key[m-i];
             }
+            free(key);
         }
     }
 }
